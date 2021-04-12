@@ -1,5 +1,4 @@
-import os
-from time import sleep, time
+from time import sleep
 from g_python.gextension import Extension
 from g_python.hdirection import Direction
 from g_python.hpacket import HPacket
@@ -60,6 +59,7 @@ FallingFurni = None
 location_x = None
 location_y = None
 specific = None
+autoStop = None
 
 RoomUserTalkIn = headers["RoomUserTalk_In"]
 RoomUserTalkOut = headers["RoomUserTalk"]
@@ -75,7 +75,7 @@ def SendMessage(msg):
         extension.send_to_client(HPacket(RoomUserTalkIn, 0, msg, 0, 33, "", -1))
 
 def RoomUserTalk(message):
-    global disableType, Capture, FallingFurni, specific
+    global disableType, Capture, FallingFurni, specific, RandomBubble, autoStop
 
     message.is_blocked = True
     packet = message.packet
@@ -117,6 +117,14 @@ def RoomUserTalk(message):
             specific = True
             SendMessage("Specific Tile: ON")
 
+    elif text.startswith(f'{prefix}autostop'):
+        if autoStop == True:
+            autoStop = False
+            SendMessage("AUTO STOP: OFF")
+        else:
+            autoStop = True
+            SendMessage("AUTO STOP: ON")
+
 
 def DisableType(msg):
     if disableType == True:
@@ -137,7 +145,7 @@ def CaptureTile(msg):
         msg.is_blocked = False
 
 def FFBot(message):
-    global location_x, location_y, delaySet
+    global location_x, location_y, FallingFurni, autoStop
 
     if FallingFurni == True:
         packet = message.packet
@@ -154,6 +162,8 @@ def FFBot(message):
                 (_, _, x, y, _, _, _, _, _, _, _, _, _,) = packet.read('liiiiliiisiil')
                 
             walk_to_tile(x, y)
+            if autoStop == True:
+                FallingFurni = False
             
 
 ##########################################################################
