@@ -75,7 +75,7 @@ def SendMessage(msg):
         extension.send_to_client(HPacket(RoomUserTalkIn, 0, msg, 0, 33, "", -1))
 
 def RoomUserTalk(message):
-    global disableType, Capture, FallingFurni, specific, RandomBubble, autoStop
+    global disableType, Capture, FallingFurni, specific, autoStop
 
     message.is_blocked = True
     packet = message.packet
@@ -155,6 +155,8 @@ def FFBot(message):
 
         if specific == True:
             walk_to_tile(location_x, location_y)
+            if autoStop == True:
+                FallingFurni = False
         else:
             if(str(client_type).__contains__(flash_string)):
                 (_, _, x, y, _, _, _, _, _, _, _, _, _,) = packet.read('iiiiissiisiii')
