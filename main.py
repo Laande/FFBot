@@ -60,7 +60,6 @@ FallingFurni = None
 location_x = None
 location_y = None
 specific = None
-RandomBubble = None
 
 RoomUserTalkIn = headers["RoomUserTalk_In"]
 RoomUserTalkOut = headers["RoomUserTalk"]
@@ -76,7 +75,7 @@ def SendMessage(msg):
         extension.send_to_client(HPacket(RoomUserTalkIn, 0, msg, 0, 33, "", -1))
 
 def RoomUserTalk(message):
-    global disableType, Capture, FallingFurni, specific, RandomBubble
+    global disableType, Capture, FallingFurni, specific
 
     message.is_blocked = True
     packet = message.packet
