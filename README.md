@@ -3,10 +3,10 @@ A Falling Furni Bot for client Flash and Unity.
 
 # Commands
 
-* !disabletype > Ignores the bubble that appears when typing
+* !disabletype > Enable/Disable the bubble that appears when typing
 
-* !capture > Enablee/disable Capture the x / y location of where you walk
+* !capture > Enable/Disable Capture the x / y location of where you walk
 
-* !specific > Enable/Disable the specific use for a certain ffbot location
+* !specific > Enable/Disable specific use for a specific location to walk
 
 * !ffbot > Enable/Disable the FallingFurni Bot
