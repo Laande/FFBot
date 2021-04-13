@@ -11,4 +11,6 @@ A Falling Furni Bot for client Flash and Unity.
 
 * !autostop > Enable / Disable automatic stop when you walk at a furni.
 
+* !wired > Enable / Disable the ffbot with wired
+
 * !ffbot > Enable/Disable the FallingFurni Bot
