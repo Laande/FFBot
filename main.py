@@ -2,7 +2,6 @@ from time import sleep
 from g_python.gextension import Extension
 from g_python.hdirection import Direction
 from g_python.hpacket import HPacket
-from g_python.hparsers import HEntity
 import sys
 
 if sys.version_info[0] >= 3:
@@ -21,6 +20,8 @@ extension_info = {
 extension = Extension(extension_info=extension_info, args=sys.argv)
 extension.start()
 
+print(f'[FFBot] Application Started!')
+
 def client_type():
     sleep(0.50)
     return extension.connection_info["client_type"]
@@ -35,18 +36,20 @@ headers = {}
 if str(client_type).__contains__(unity_string):
     headers = {
         "RoomUserWalk": 75,
-        "ObjectAdd": 95,
+        "RoomPlaceItem": 95,
         "RoomUserTalk": 52,
         "RoomUserTalk_In": 24,
         "UserTyping": 317,
+        "RoomPlaceItem_Wired": 93
     }
 else:
     headers = {
         "RoomUserWalk": 3725,
-        "ObjectAdd":  1810,
+        "RoomPlaceItem":  1810,
         "RoomUserTalk": 654,
         "RoomUserTalk_In": 3139,
         "UserTyping": 3550,
+        "RoomPlaceItem_Wired": 1855
     }
 
 
@@ -60,12 +63,14 @@ location_x = None
 location_y = None
 specific = None
 autoStop = None
+isWired = None
 
 RoomUserTalkIn = headers["RoomUserTalk_In"]
 RoomUserTalkOut = headers["RoomUserTalk"]
-ObjectAdd = headers["ObjectAdd"]
+RoomPlaceItem = headers["RoomPlaceItem"]
 RoomUserWalk = headers["RoomUserWalk"]
 UserTyping = headers["UserTyping"]
+RoomPlaceItemWired = headers["RoomPlaceItem_Wired"]
 
 def SendMessage(msg):
     msg = f'[FallingFurni] ~ {msg}'
@@ -75,7 +80,7 @@ def SendMessage(msg):
         extension.send_to_client(HPacket(RoomUserTalkIn, 0, msg, 0, 33, "", -1))
 
 def RoomUserTalk(message):
-    global disableType, Capture, FallingFurni, specific, autoStop
+    global disableType, Capture, FallingFurni, specific, autoStop, isWired
 
     message.is_blocked = True
     packet = message.packet
@@ -124,7 +129,15 @@ def RoomUserTalk(message):
         else:
             autoStop = True
             SendMessage("AUTO STOP: ON")
-
+    elif text.startswith(f'{prefix}wired'):
+        if isWired == True:
+            isWired = False
+            SendMessage(F'FFBot Wired: OFF')
+        else:
+            isWired = True
+            SendMessage(F'FFBOT Wired: ON')
+    else:
+        SendMessage(f'Command Not Found: {text}')
 
 def DisableType(msg):
     if disableType == True:
@@ -166,12 +179,34 @@ def FFBot(message):
             walk_to_tile(x, y)
             if autoStop == True:
                 FallingFurni = False
-            
 
-##########################################################################
-# Falling Furni        By Luizin                                         #
-extension.intercept(Direction.TO_SERVER, RoomUserTalk, RoomUserTalkOut)  #
-extension.intercept(Direction.TO_SERVER, DisableType, UserTyping)        #
-extension.intercept(Direction.TO_SERVER, CaptureTile, RoomUserWalk)      #
-extension.intercept(Direction.TO_CLIENT, FFBot, ObjectAdd)               #
-##########################################################################
+def FFBotWithWired(message):
+    global isWired, location_x, location_y, autoStop
+
+    if isWired == True:
+        packet = message.packet
+
+        def walk_to_tile(x, y):
+            extension.send_to_server(HPacket(RoomUserWalk, x, y))
+
+        if specific == True:
+            walk_to_tile(location_x, location_y)
+            if autoStop == True:
+                isWired = False
+        else:
+            if(str(client_type).__contains__(flash_string)):
+                (_, _, x, y, _, _, _, _, _, _, _, _, _, _,) = packet.read('iiiiissiisiiis')
+            else:
+                (_, _, x, y, w, w, w, w, w, w, w, w, w) = packet.read('liiiliiisiils')
+            walk_to_tile(x, y)
+            if autoStop == True:
+                isWired = False
+
+#############################################################################
+# Falling Furni        By Luizin                                            #
+extension.intercept(Direction.TO_SERVER, RoomUserTalk, RoomUserTalkOut)     #
+extension.intercept(Direction.TO_SERVER, DisableType, UserTyping)           #
+extension.intercept(Direction.TO_SERVER, CaptureTile, RoomUserWalk)         #
+extension.intercept(Direction.TO_CLIENT, FFBot, RoomPlaceItem)              #
+extension.intercept(Direction.TO_CLIENT, FFBotWithWired, RoomPlaceItemWired)#
+#############################################################################
