@@ -5,7 +5,7 @@ A Falling Furni Bot for client Flash and Unity.
 
 * !disabletype > Enable/Disable the bubble that appears when typing
 
-* !capture > Enable/Disable Capture the x / y location of where you walk
+* !capture > Enable/Disable Capture the x / y location of where you walk (it's not for fucking ctf)
 
 * !specific > Enable/Disable specific use for a specific location to walk
 
