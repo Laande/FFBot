@@ -33,16 +33,16 @@ class Ui_MainWindow(object):
         self.extension = Extension(extension_info=extension_info, args=sys.argv)
         self.extension.start()
 
+        ext = self.extension
+
         def client_type():
             sleep(0.50)
-            return self.extension.connection_info["client_type"]
+            return ext.connection_info["client_type"]
 
         self.client_type = client_type()
 
         self.unity_string = "UNITY"
         self.flash_string = "FLASH"
-
-        self.headers = {}
 
         if str(self.client_type).__contains__(self.unity_string):
             headers = {
@@ -53,10 +53,10 @@ class Ui_MainWindow(object):
             }
         else:
             headers = {
-                "RoomUserWalk": 3725,
-                "RoomPlaceItem": 1810,
-                "UserTyping": 3550,
-                "RoomPlaceItem_Wired": 1855
+                "RoomUserWalk": 3534,
+                "RoomPlaceItem": 3579,
+                "UserTyping": 2266,
+                "RoomPlaceItem_Wired": 1264
             }
 
         self.prefix = "!"
