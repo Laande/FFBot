@@ -62,7 +62,7 @@ class Ui_MainWindow(object):
             headers = {
                 "RoomUserWalk": 3725,
                 "RoomPlaceItem": 1810,
-                "UserTyping": 3550,
+                "UserTyping": 1817,
                 "RoomPlaceItem_Wired": 1855
             }
 
