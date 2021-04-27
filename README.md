@@ -3,14 +3,19 @@ A Falling Furni Bot for client Flash and Unity.
 
 # Commands
 
-* !disabletype > Enable/Disable the bubble that appears when typing
+* `FFBot` > Enable/Disable the FallingFurni Bot
 
-* !capture > Enable/Disable Capture the x / y location of where you walk (it's not for fucking ctf)
+* `Wired` > Enable / Disable the FFBot with wired
 
-* !specific > Enable/Disable specific use for a specific location to walk
+* `Specific` > Enable/Disable specific use for a specific location to walk ( use `Capture` to set the tile )
 
-* !autostop > Enable / Disable automatic stop when you walk at a furni.
+* `Auto Stop` > Enable / Disable automatic stop when you walk at a furni
 
-* !wired > Enable / Disable the ffbot with wired
 
-* !ffbot > Enable/Disable the FallingFurni Bot
+* `Delay` > Add a delay before walk to the tile
+
+* `Capture` > Enable/Disable capture the x ; y location of where you walk (it's not for fucking ctf)
+
+* `Disable Type` > Enable/Disable the bubble that appears when typing
+
+* `Top Most` > Always the window on the top
