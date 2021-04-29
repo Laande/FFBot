@@ -1,15 +1,22 @@
 import sys
 import os
 from time import sleep
+import re
 
 if sys.version_info[0] >= 3:
-    try:
-        import g_python
-        import PyQt5
-    except ImportError:
-        r = os.system("pip3 install g_python PyQt5")
-        if r == 1:
-            os.system("python -m pip install g_python PyQt5")
+    
+    requirements = ["g_python", "PyQt5"]
+
+    for requirement in requirements:
+        try:
+            requirement = requirement.strip()
+            __import__(requirement)
+        except Exception as e:
+            e = str(e)
+            searchr = re.search("'(.+)'", e).group().replace("'", "").strip()
+            testos = os.system(f"pip3 install {searchr}")
+            if testos == 1:
+                os.system(f"python -m pip install {searchr}")
 else:
     print("[FFBot] You need python 3.0+ for run this application.")
     exit()
