@@ -40,30 +40,28 @@ class Ui_MainWindow(object):
         self.extension = Extension(extension_info=extension_info, args=sys.argv)
         self.extension.start()
 
-        def client_type():
+        def client_type(ext):
             sleep(0.50)
-            return self.extension.connection_info["client_type"]
+            return ext.connection_info["client_type"]
 
-        self.client_type = client_type()
+        self.client_type = client_type(self.extension)
 
         self.unity_string = "UNITY"
         self.flash_string = "FLASH"
 
-        self.headers = {}
-
         if str(self.client_type).__contains__(self.unity_string):
             headers = {
-                "RoomUserWalk": 75,
-                "RoomPlaceItem": 95,
-                "UserTyping": 317,
-                "RoomPlaceItem_Wired": 93
+                "RoomUserWalk": 'Move',
+                "RoomPlaceItem": 'ActiveObjectAdd',
+                "UserTyping": 'UserStartTyping',
+                "RoomPlaceItem_Wired": 'ActiveObjectUpdate'
             }
         else:
             headers = {
-                "RoomUserWalk": 3725,
-                "RoomPlaceItem": 1810,
-                "UserTyping": 1817,
-                "RoomPlaceItem_Wired": 1855
+                "RoomUserWalk": 'MoveAvatar',
+                "RoomPlaceItem": 'ObjectAdd',
+                "UserTyping": 'StartTyping',
+                "RoomPlaceItem_Wired": 'ObjectUpdate'
             }
 
         self.prefix = "!"
