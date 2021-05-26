@@ -14,9 +14,7 @@ if sys.version_info[0] >= 3:
         except Exception as e:
             e = str(e)
             searchr = re.search("'(.+)'", e).group().replace("'", "").strip()
-            testos = os.system(f"pip3 install {searchr}")
-            if testos == 1:
-                os.system(f"python -m pip install {searchr}")
+            os.system(f"python -m pip install {searchr}")
 else:
     print("[FFBot] You need python 3.0+ for run this application.")
     exit()
